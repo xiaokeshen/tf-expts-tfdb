@@ -2,7 +2,7 @@
 import numpy as np
 import tensorflow as tf
 
-N = 10000
+N = 10
 np_x = np.linspace(0.0, 10.0, N)
 np_y = -2.0 * np_x + 3.0
 
@@ -20,15 +20,12 @@ train_op = opt.minimize(sqe)
 sess = tf.InteractiveSession()
 
 sess.run(tf.initialize_all_variables())
-print("")
-raw_input()
+print("=====")
 
 print(sess.run(train_op))
-print("")
-raw_input()
+print("=====")
 
 print(sess.run(k))
-print("")
-raw_input()
+print("=====")
 
 print(sess.run(b))
