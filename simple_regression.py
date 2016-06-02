@@ -21,11 +21,14 @@ sess = tf.InteractiveSession()
 
 sess.run(tf.initialize_all_variables())
 print("=====")
+raw_input()
 
 print(sess.run(train_op))
 print("=====")
+raw_input()
 
 print(sess.run(k))
 print("=====")
+raw_input()
 
 print(sess.run(b))
