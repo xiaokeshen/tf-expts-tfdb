@@ -9,7 +9,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 from six.moves import xrange
 
 # Create a debug Session, different from a normal session
-sess = tf.Session()
+sess = tf.Session("debug")
 
 # MNIST data input object
 mnist = input_data.read_data_sets("/tmp/mnist_data", one_hot=True)
@@ -59,6 +59,3 @@ for i in xrange(100):
    }
 
   sess.run(train_step, feed_dict=train_feed)
-
-
-
