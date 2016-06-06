@@ -2,7 +2,7 @@ import sys
 
 import tensorflow as tf
 
-sess = tf.Session()
+sess = tf.Session("debug")
 
 a = tf.Variable([1.1, 2.2], name="a")
 b = tf.reduce_sum(a, name="b")
