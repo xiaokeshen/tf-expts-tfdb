@@ -2,7 +2,7 @@
 import numpy as np
 import tensorflow as tf
 
-N = 10
+N = 10 * 1000
 np_x = np.linspace(0.0, 10.0, N)
 np_y = -2.0 * np_x + 3.0
 
