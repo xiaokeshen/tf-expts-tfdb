@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-sess = tf.Session("debug")
+sess = tf.Session()
 
 q = tf.FIFOQueue(3, "float")
 init = q.enqueue_many(([1.1, 2.2, 3.3],))

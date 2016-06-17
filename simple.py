@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-sess = tf.Session("debug")
+sess = tf.Session()
 
 a = tf.constant(1.1, name="a")
 b = tf.constant(1.1, name="b")

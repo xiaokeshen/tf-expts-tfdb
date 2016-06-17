@@ -17,7 +17,7 @@ sqe = tf.reduce_sum(tf.square(y - y_))
 opt = tf.train.GradientDescentOptimizer(1e-6)
 train_op = opt.minimize(sqe)
 
-sess = tf.Session("debug")
+sess = tf.Session()
 
 sess.run(tf.initialize_all_variables())
 print("=====")

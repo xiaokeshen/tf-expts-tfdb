@@ -7,6 +7,6 @@ sess.run(tf.initialize_all_variables())
 
 y = tf.constant([0.1, 0.2], name="y")
 
-for i in range(10):
+for i in range(1):
   aax = tf.assign_add(x, y)
   sess.run(aax)
