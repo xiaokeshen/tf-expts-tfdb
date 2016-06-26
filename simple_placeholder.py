@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-sess = tf.Session("debug")
+sess = tf.Session()
 
 a = tf.placeholder(tf.float32, name="3")
 b = a * a
