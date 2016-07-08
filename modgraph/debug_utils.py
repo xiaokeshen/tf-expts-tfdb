@@ -23,13 +23,15 @@ def print_all_ops(sess):
       print("  %s" % inp.name)
 
 
-def add_tensor_watch(run_options, name, slot=0, debug_op="DebugIdentity"):
+def add_tensor_watch(run_options, name, slot=0, debug_op="DebugIdentity",
+                     deep_copy=False):
   watch_opts = run_options.debug_tensor_watch_opts
 
   watch = watch_opts.add()
   watch.node_name = name
   watch.output_slot = slot
   watch.debug_ops.append(debug_op)
+  watch.deep_copy = deep_copy
 
 
 def add_tensor_watch_all(sess, run_options, debug_op="DebugIdentity",
@@ -38,37 +40,47 @@ def add_tensor_watch_all(sess, run_options, debug_op="DebugIdentity",
   g = sess.graph
   ops = g.get_operations()
   for op in ops:
-    for inp in op.inputs:
-      if inp.name.count(":") != 1:
-        continue
+    node_debug_op = debug_op
 
-      node_name = inp.name.split(":")[0]
+    print("op = %s" % op.name)
+    print("op.type = %s" % op.type)
+    if str(op.type) == "Variable" and debug_op.count("DebugRef") == 0:
+      node_debug_op = node_debug_op.replace("Debug", "DebugRef")
 
-      node_base_name = node_name.split("/")[-1].split("_")[0]
+    if not op.outputs:
+      continue
+
+    node_name = str(op.name)
+
+    node_base_name = node_name.split("/")[-1].split("_")[0]
+    if op_blacklist.count(node_base_name) != 0:
+      print("Skipping blacklisted op: %s" % node_name)
+      continue
+
+    node_name_items = node_name.split("/")
+    if len(node_name_items) > 1:
+      node_base_name = node_name_items[-2].split("_")[0]
       if op_blacklist.count(node_base_name) != 0:
         print("Skipping blacklisted op: %s" % node_name)
         continue
 
-      node_name_items = node_name.split("/")
-      if len(node_name_items) > 1:
-        node_base_name = node_name_items[-2].split("_")[0]
-        if op_blacklist.count(node_base_name) != 0:
-          print("Skipping blacklisted op: %s" % node_name)
-          continue
+    skip_for_regex = False
+    for regex in op_re_blacklist:
+      if re.match(regex, node_name):
+        skip_for_regex = True
+        break
 
-      skip_for_regex = False
-      for regex in op_re_blacklist:
-        if re.match(regex, node_name):
-          skip_for_regex = True
-          break
-      if skip_for_regex:
-        print("Skipping regex-blacklisted op: %s" % node_name)
-        continue
+    if skip_for_regex:
+      print("Skipping regex-blacklisted op: %s" % node_name)
+      continue
 
-      output_slot = int(inp.name.split(":")[1])
-      add_tensor_watch(run_options, node_name, slot=output_slot)
-      print("Added watch: %s : %d" % (node_name, output_slot))
+    # TODO(cais): Extend to nodes with >1 outputs
+    output_slot = 0
 
+    add_tensor_watch(run_options, node_name, slot=output_slot,
+                     debug_op=node_debug_op)
+    print("Added watch: %s : %d --> %s" %
+          (node_name, output_slot, debug_op))
 
 def run_opts_with_tensor_watches(tensor_names):
   run_opts = tf.RunOptions()

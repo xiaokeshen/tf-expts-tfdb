@@ -163,7 +163,7 @@ def train():
     debug_utils.add_tensor_watch_all(sess, run_opts,
                                      op_re_blacklist=[r".*queue.*"])
 
-    if i % 10 == 0:  # Record summaries and test-set accuracy
+    if i % 10 == 0:  # Record summaries and test-sext accuracy
       summary, acc = sess.run([merged, accuracy],
                               feed_dict=feed_dict(False),
                               options=run_opts)
