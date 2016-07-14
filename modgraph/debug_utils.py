@@ -44,8 +44,8 @@ def add_tensor_watch_all(sess, run_options, debug_op="DebugIdentity",
 
     print("op = %s" % op.name)
     print("op.type = %s" % op.type)
-    if str(op.type) == "Variable" and debug_op.count("DebugRef") == 0:
-      node_debug_op = node_debug_op.replace("Debug", "DebugRef")
+#    if str(op.type) == "Variable" and debug_op.count("DebugRef") == 0:
+#      node_debug_op = node_debug_op.replace("Debug", "DebugRef")
 
     if not op.outputs:
       continue
