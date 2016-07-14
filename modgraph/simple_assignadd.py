@@ -10,7 +10,7 @@ sess = tf.InteractiveSession()
 run_opts = tf.RunOptions()
 debug_utils.add_tensor_watch_all(sess, run_opts)
 # debug_utils.add_tensor_watch(run_opts, "a", slot=0,
-#                              debug_op="DebugRefIdentity", deep_copy=True)
+#                              debug_op="DebugRefIdentity")
 # debug_utils.add_tensor_watch(run_opts, "b", slot=0)
 # debug_utils.add_tensor_watch(run_opts, "a/initial_value", slot=0)
 

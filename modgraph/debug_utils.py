@@ -23,15 +23,14 @@ def print_all_ops(sess):
       print("  %s" % inp.name)
 
 
-def add_tensor_watch(run_options, name, slot=0, debug_op="DebugIdentity",
-                     deep_copy=False):
+def add_tensor_watch(run_options, name, slot=0, debug_op="DebugIdentity"):
   watch_opts = run_options.debug_tensor_watch_opts
 
   watch = watch_opts.add()
   watch.node_name = name
   watch.output_slot = slot
   watch.debug_ops.append(debug_op)
-  watch.deep_copy = deep_copy
+  # watch.deep_copy = deep_copy
 
 
 def add_tensor_watch_all(sess, run_options, debug_op="DebugIdentity",
